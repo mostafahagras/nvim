@@ -53,3 +53,5 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank()
   end,
 })
+vim.cmd("let g:netrw_banner = 0 ")
+vim.cmd([[let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro']])
