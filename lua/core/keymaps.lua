@@ -27,6 +27,10 @@ vim.keymap.set("n", "<C-b>", "<C-b>zz", opts)
 vim.keymap.set("n", "n", "nzzzv", opts)
 vim.keymap.set("n", "N", "Nzzzv", opts)
 
+-- Move lines in visual mode
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "moves lines down in visual selection" })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "moves lines up in visual selection" })
+
 -- Resize with arrows
 local function is_real_win(win)
   local bufnr = vim.api.nvim_win_get_buf(win)
@@ -76,10 +80,51 @@ vim.keymap.set("n", "<leader>x", ":bdelete!<CR>", opts) -- close buffer
 vim.keymap.set("n", "<leader>b", "<cmd> enew <CR>", opts) -- new buffer
 
 -- Window management
-vim.keymap.set("n", "<leader>v", "<C-w>v", opts) -- split window vertically
-vim.keymap.set("n", "<leader>h", "<C-w>s", opts) -- split window horizontally
+vim.keymap.set("n", "<leader>V", "<C-w>v", opts) -- split window vertically
+vim.keymap.set("n", "<leader>H", "<C-w>s", opts) -- split window horizontally
 vim.keymap.set("n", "<leader>se", "<C-w>=", opts) -- make split windows equal width & height
 vim.keymap.set("n", "<leader>sx", ":close<CR>", opts) -- close current split window
+
+-- Vertical/Horizontal splits + Telescope file picker
+vim.keymap.set("n", "<leader>v", function()
+  local actions = require("telescope.actions")
+  local action_state = require("telescope.actions.state")
+  local builtin = require("telescope.builtin")
+
+  builtin.find_files({
+    attach_mappings = function(prompt_bufnr, map)
+      local function open_vsplit()
+        local entry = action_state.get_selected_entry()
+        actions.close(prompt_bufnr)
+        vim.cmd("vsplit " .. vim.fn.fnameescape(entry.path))
+      end
+
+      map("i", "<CR>", open_vsplit)
+      map("n", "<CR>", open_vsplit)
+      return true
+    end,
+  })
+end, { desc = "Vertical split + fuzzy find file" })
+
+vim.keymap.set("n", "<leader>h", function()
+  local actions = require("telescope.actions")
+  local action_state = require("telescope.actions.state")
+  local builtin = require("telescope.builtin")
+
+  builtin.find_files({
+    attach_mappings = function(prompt_bufnr, map)
+      local function open_hsplit()
+        local entry = action_state.get_selected_entry()
+        actions.close(prompt_bufnr)
+        vim.cmd("split " .. vim.fn.fnameescape(entry.path))
+      end
+
+      map("i", "<CR>", open_hsplit)
+      map("n", "<CR>", open_hsplit)
+      return true
+    end,
+  })
+end, { desc = "Horizontal split + fuzzy find file" })
 
 -- Navigate between splits
 vim.keymap.set("n", "<C-k>", ":wincmd k<CR>", opts)

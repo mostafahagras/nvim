@@ -53,7 +53,23 @@ return {
         lualine_a = { mode },
         lualine_b = { { "branch", icon = "" } },
         lualine_c = { filename },
-        lualine_x = { diagnostics, diff, { "encoding", cond = hide_in_width }, { "filetype" } },
+        lualine_x = {
+          diagnostics,
+          diff,
+          { "encoding", cond = hide_in_width },
+          {
+            "filetype",
+            fmt = function(ft)
+              if ft == "typescriptreact" then
+                return "tsx"
+              elseif ft == "javascriptreact" then
+                return "jsx"
+              else
+                return ft
+              end
+            end,
+          },
+        },
         lualine_y = { "location" },
         lualine_z = {
           {

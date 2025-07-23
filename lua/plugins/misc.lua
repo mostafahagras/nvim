@@ -23,6 +23,11 @@ return {
     opts = {},
   },
   {
+    "windwp/nvim-ts-autotag",
+    event = "InsertEnter",
+    opts = {},
+  },
+  {
     -- High-performance color highlighter
     "norcalli/nvim-colorizer.lua",
     config = function()
@@ -30,5 +35,5 @@ return {
     end,
   },
   -- Simple copilot autocompletions
-  "github/copilot.vim",
+  -- "github/copilot.vim",
 }

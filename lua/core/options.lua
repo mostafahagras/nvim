@@ -55,3 +55,5 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 vim.cmd("let g:netrw_banner = 0 ")
 vim.cmd([[let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro']])
+vim.opt.cursorline = true
+vim.opt.colorcolumn = "80"

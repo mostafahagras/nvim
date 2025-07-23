@@ -20,7 +20,7 @@ require("lazy").setup({
   require("plugins.bufferline"),
   require("plugins.treesitter"),
   require("plugins.gitsigns"),
-  require("plugins.precognition"),
+  -- require("plugins.precognition"),
   require("plugins.which_key"),
   require("plugins.misc"),
   require("plugins.lualine"),
